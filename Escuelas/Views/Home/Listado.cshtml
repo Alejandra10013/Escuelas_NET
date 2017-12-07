@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Escuelas.Models.PROFESOR>
+@{
+    ViewData["Title"] = "Listado";
+}
+<h2>Listado de Profesores</h2>
+<table class="table table-bordered table-hover">
+    <thead>
+    <th>RUT</th>
+    <th>Nombre</th>
+    <th>Titulo</th>
+    <th>Grado</th>
+    <th>Ver</th>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+
+            <tr>
+                <td>@Html.DisplayFor(m => p.rut)</td>
+                <td>@Html.DisplayFor(m => p.nombre)</td>
+                <td>@Html.DisplayFor(m => p.titulo)</td>
+                <td>@Html.DisplayFor(m => p.grado)</td>
+                <td>@Html.ActionLink("Visualizar", "Ver", new { rut = p.rut })</td>
+            </tr>
+        }
+    </tbody>
+</table>

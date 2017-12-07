@@ -1,30 +1,54 @@
-﻿using System;
+﻿using Escuelas.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Mvc; 
 
 namespace Escuelas.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
+        ESCUELAS_NETEntities cnx;
+
+        public HomeController() {
+            cnx = new ESCUELAS_NETEntities();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
+        public ActionResult Formulario() {
             return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult Guardar(string rut, string nombre, string titulo, string grado)
         {
-            ViewBag.Message = "Your contact page.";
+            PROFESOR profe = new PROFESOR()
+            {
+                rut = rut,
+               nombre = nombre,
+                titulo = titulo,
+                grado = grado
+            };
 
-            return View();
+            cnx.PROFESORs.Add(profe); 
+            cnx.SaveChanges();
+            return View ("Listado", ListadoProfesores());
+
+        }
+
+        public ActionResult Listado()
+        { 
+            return View( ListadoProfesores());
+        }
+
+
+
+
+        private List<Escuelas.Models.PROFESOR> ListadoProfesores()
+        {
+            cnx.Database.Connection.Open();
+
+            List<PROFESOR> profesores = cnx.PROFESORs.ToList();
+            cnx.Database.Connection.Close();
+            return profesores;
         }
     }
 }
